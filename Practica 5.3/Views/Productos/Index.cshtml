@@ -1,57 +1,66 @@
 ﻿@model IEnumerable<DAL.Producto>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Productos";
 }
 
-<h2>Index</h2>
+<h2>Productos</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Producto1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Precio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CantExistencia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </th>
-        <th></th>
-    </tr>
+<div class="row">
+    <div class="col-sm-2">
+        <a href="/Productos/Create" style="margin-bottom: 10px" class="btn btn-success">Nuevo</a>
+    </div>
+    <div>
+        <input type="text" name="search" placeholder="Busqueda..." class="form-control" id="input_search" />
+    </div>
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Producto1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Precio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CantExistencia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImageUrl)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdProducto }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdProducto }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdProducto })
-        </td>
-    </tr>
-}
-
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Imagen")
+            </th>
+            <th>
+                @Html.DisplayName("Producto")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantExistencia)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                <img src="~/images/@item.ImageUrl" alt="Imagen" width="90" height="90" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producto1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantExistencia)
+            </td>
+            <td>
+                <a href="/Productos/Edit/?id=@item.IdProducto" class="btn btn-primary">Editar</a>
+                <a href="/Productos/Details/?id=@item.IdProducto" class="btn btn-warning">Detalles</a>
+                <a href="/Productos/Delete/?id=@item.IdProducto" class="btn btn-danger">Eliminar</a>
+            </td>
+        </tr>
+        }
+    </tbody>
 </table>

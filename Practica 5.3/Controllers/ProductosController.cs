@@ -44,18 +44,39 @@ namespace Practica_5._3.Controllers
         // POST: Productos/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+
+        //public ActionResult Create([Bind(Include = "IdProducto,Producto1,Descripcion,Precio,CantExistencia,ImageUrl")] Producto producto)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Producto.Add(producto);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    return View(producto);
+        //}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdProducto,Producto1,Descripcion,Precio,CantExistencia,ImageUrl")] Producto producto)
+        public ActionResult Create(HttpPostedFileBase file)
         {
-            if (ModelState.IsValid)
-            {
-                db.Producto.Add(producto);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            // FILE
+            string ImageName = System.IO.Path.GetFileName(file.FileName);
+            string physicalPath = Server.MapPath("~/images/" + ImageName);
+            file.SaveAs(physicalPath);
 
-            return View(producto);
+            // PRODUCTO
+            Producto pro = new Producto();
+            pro.Producto1 = Request.Form["Producto1"];
+            pro.Descripcion = Request.Form["Descripcion"];
+            pro.Precio = float.Parse(Request.Form["Precio"]);
+            pro.CantExistencia = int.Parse(Request.Form["CantExistencia"]);
+            pro.ImageUrl = ImageName;
+            
+            // ENTITY
+            db.Producto.Add(pro);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Productos/Edit/5
@@ -73,21 +94,50 @@ namespace Practica_5._3.Controllers
             return View(producto);
         }
 
-        // POST: Productos/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdProducto,Producto1,Descripcion,Precio,CantExistencia,ImageUrl")] Producto producto)
+        public ActionResult Edit(HttpPostedFileBase file)
         {
+            Producto pro = new Producto();
+
             if (ModelState.IsValid)
             {
-                db.Entry(producto).State = EntityState.Modified;
+                // FILE
+                string ImageName = System.IO.Path.GetFileName(file.FileName);
+                string physicalPath = Server.MapPath("~/images/" + ImageName);
+                file.SaveAs(physicalPath);
+
+                // PRODUCTO
+                pro.IdProducto = int.Parse(Request.Form["Id"]);
+                pro.Producto1 = Request.Form["Producto1"];
+                pro.Descripcion = Request.Form["Descripcion"];
+                pro.Precio = float.Parse(Request.Form["Precio"]);
+                pro.CantExistencia = int.Parse(Request.Form["CantExistencia"]);
+                pro.ImageUrl = ImageName;
+
+                db.Entry(pro).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            return View(producto);
+            return View(pro);
         }
+
+        //// POST: Productos/Edit/5
+        //// Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        //// más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "IdProducto,Producto1,Descripcion,Precio,CantExistencia,ImageUrl")] Producto producto)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(producto).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(producto);
+        //}
 
         // GET: Productos/Delete/5
         public ActionResult Delete(int? id)

@@ -46,16 +46,27 @@ namespace Practica_5._3.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCliente,Nombres,Apellidos,Direccion,Email,Telefono,Movil,ImageUrl")] Cliente cliente)
+        public ActionResult Create(HttpPostedFileBase file)
         {
-            if (ModelState.IsValid)
-            {
-                db.Cliente.Add(cliente);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            // FILE
+            string ImageName = System.IO.Path.GetFileName(file.FileName);
+            string physicalPath = Server.MapPath("~/images/" + ImageName);
+            file.SaveAs(physicalPath);
+            
+            // CLIENTE
+            Cliente cliente = new Cliente();
+            cliente.Nombres = Request.Form["Nombres"];
+            cliente.Apellidos = Request.Form["Apellidos"];
+            cliente.Direccion = Request.Form["Direccion"];
+            cliente.Movil = Request.Form["Movil"];
+            cliente.Telefono = Request.Form["Telefono"];
+            cliente.Email = Request.Form["Email"];
+            cliente.ImageUrl = ImageName;
 
-            return View(cliente);
+            // ENTITY
+            db.Cliente.Add(cliente);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Clientes/Edit/5
@@ -76,14 +87,45 @@ namespace Practica_5._3.Controllers
         // POST: Clientes/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "IdCliente,Nombres,Apellidos,Direccion,Email,Telefono,Movil,ImageUrl")] Cliente cliente)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(cliente).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(cliente);
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdCliente,Nombres,Apellidos,Direccion,Email,Telefono,Movil,ImageUrl")] Cliente cliente)
+        public ActionResult Edit(HttpPostedFileBase file)
         {
+            Cliente cliente = new Cliente();
+
             if (ModelState.IsValid)
             {
+                // FILE
+                string ImageName = System.IO.Path.GetFileName(file.FileName);
+                string physicalPath = Server.MapPath("~/images/" + ImageName);
+                file.SaveAs(physicalPath);
+
+                // CLIENTE
+                cliente.IdCliente = int.Parse(Request.Form["Id"]);
+                cliente.Nombres = Request.Form["Nombres"];
+                cliente.Apellidos = Request.Form["Apellidos"];
+                cliente.Direccion = Request.Form["Direccion"];
+                cliente.Movil = Request.Form["Movil"];
+                cliente.Telefono = Request.Form["Telefono"];
+                cliente.Email = Request.Form["Email"];
+                cliente.ImageUrl = ImageName;
+
                 db.Entry(cliente).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(cliente);

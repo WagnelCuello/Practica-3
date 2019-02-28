@@ -20,6 +20,9 @@
         <thead class="bg-success">
             <tr>
                 <th>
+                    @Html.DisplayName("Imagen")
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Nombres)
                 </th>
                 <th>
@@ -37,43 +40,40 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Movil)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImageUrl)
-                </th>
                 <th></th>
             </tr>
         </thead>
         <tbody id="table_body">
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nombres)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Apellidos)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Direccion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Telefono)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Movil)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ImageUrl)
-                    </td>
-                    <td>
-                        <a href="/Clientes/Edit/?id=@item.IdCliente" class="btn btn-primary">Editar</a>
-                        <a href="/Clientes/Details/?id=@item.IdCliente" class="btn btn-success">Detalles</a>
-                        <a href="/Clientes/Delete/?id=@item.IdCliente" class="btn btn-danger">Eliminar</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    <img src="~/images/@item.ImageUrl" alt="Imagen" width="90" height="90" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellidos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movil)
+                </td>
+                <td>
+                    <a href="/Clientes/Edit/?id=@item.IdCliente" class="btn btn-primary">Editar</a>
+                    <a href="/Clientes/Details/?id=@item.IdCliente" class="btn btn-success">Detalles</a>
+                    <a href="/Clientes/Delete/?id=@item.IdCliente" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

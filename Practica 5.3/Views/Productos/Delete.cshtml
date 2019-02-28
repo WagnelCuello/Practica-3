@@ -1,18 +1,24 @@
 ﻿@model DAL.Producto
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar";
 }
 
-<h2>Delete</h2>
+<h2>Eliminar</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>¿Está seguro que desea eliminar este registro?</h3>
 <div>
     <h4>Producto</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Producto1)
+        </dt>
+        <dd>
+            <img src="~/images/@Model.ImageUrl" alt="Imagen" width="90" height="90" />
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Producto")
         </dt>
 
         <dd>
@@ -36,29 +42,20 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CantExistencia)
+            @Html.DisplayName("Existencia")
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.CantExistencia)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImageUrl)
-        </dd>
-
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-danger" />
+            <a href="/Productos/" class="btn btn-info">Regresar</a>
         </div>
     }
 </div>

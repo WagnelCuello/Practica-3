@@ -1,17 +1,23 @@
 ﻿@model DAL.Producto
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles";
 }
 
-<h2>Details</h2>
+<h2>Detalles</h2>
 
 <div>
     <h4>Producto</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Producto1)
+        </dt>
+        <dd>
+            <img src="~/images/@Model.ImageUrl" alt="Imagen" width="90" height="90" />
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Producto")
         </dt>
 
         <dd>
@@ -35,24 +41,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CantExistencia)
+            @Html.DisplayName("Existencia")
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.CantExistencia)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImageUrl)
-        </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IdProducto }) |
-    @Html.ActionLink("Back to List", "Index")
+    <a href="/Productos/Edit/?id=@Model.IdProducto" class="btn btn-primary">Editar</a>
+    <a href="/Productos/" class="btn btn-info">Regresar</a>
 </p>
