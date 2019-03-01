@@ -35,32 +35,45 @@
             </th>
             <th></th>
         </tr>
-    </thead>
-    <tbody>
+    </thead> 
+    <tbody id="table_body">
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                <img src="~/images/@item.ImageUrl" alt="Imagen" width="90" height="90" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Producto1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Precio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantExistencia)
-            </td>
-            <td>
-                <a href="/Productos/Edit/?id=@item.IdProducto" class="btn btn-primary">Editar</a>
-                <a href="/Productos/Details/?id=@item.IdProducto" class="btn btn-warning">Detalles</a>
-                <a href="/Productos/Delete/?id=@item.IdProducto" class="btn btn-danger">Eliminar</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <img src="~/images/@item.ImageUrl" alt="Imagen" width="90" height="90" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantExistencia)
+                </td>
+                <td>
+                    <a href="/Productos/Edit/?id=@item.IdProducto" class="btn btn-primary">Editar</a>
+                    <a href="/Productos/Details/?id=@item.IdProducto" class="btn btn-warning">Detalles</a>
+                    <a href="/Productos/Delete/?id=@item.IdProducto" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#input_search").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#table_body tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+}
